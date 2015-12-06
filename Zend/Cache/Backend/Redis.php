@@ -59,6 +59,7 @@ class Zend_Cache_Backend_Redis extends Zend_Cache_Backend implements Zend_Cache_
         'persistent'  => false,
         'db'          => self::DEFAULT_DB,
         'prefix'      => self::DEFAULT_PREFIX,
+        'requirepass' => ''
     );
 
     /**
@@ -389,6 +390,9 @@ class Zend_Cache_Backend_Redis extends Zend_Cache_Backend implements Zend_Cache_
                     $this->_redis->$method($this->_options['host'], $this->_options['port'], $this->_options['timeout']);
                 } else {
                     $this->_redis->$method($this->_options['host'], $this->_options['port']);
+                }
+                if(!empty($this->_options['requirepass'])) {
+                    $this->_redis->auth($this->_options['requirepass']);
                 }
                 if (!empty($this->_options['prefix'])) {
                     $this->_redis->setOption(Redis::OPT_PREFIX, $this->_options['prefix']);
